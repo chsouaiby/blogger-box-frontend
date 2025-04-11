@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of} from 'rxjs';
+import { catchError, Observable, of} from 'rxjs';
 
 import { POSTS, Post } from '../data/post';
 import { environment } from "../environment/environment";
@@ -18,9 +18,9 @@ export class PostService {
         return this.http.get<Post[]>(this.postsUrl);
     }
 
-    create(post: PostCreateInput): Observable<Post> {
-        return this.http.post<Post>(this.postsUrl, post);
-    }
+    // create(post: PostCreateInput): Observable<Post> {
+    //     return this.http.post<Post>(this.postsUrl, post);
+    // }
 
     update(post: Post): Observable<Post> {
         return this.http.put<Post>(this.postsUrl, post)
