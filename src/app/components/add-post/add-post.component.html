@@ -1,0 +1,60 @@
+<div class="container my-4">
+    <h2>Blogger-Box</h2>
+    
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="needs-validation" autocomplete="off">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title:</label>
+        <input 
+          type="text" 
+          id="title" 
+          class="form-control" 
+          formControlName="title"
+          [class.is-invalid]="title?.invalid && title?.touched"
+          [class.is-valid]="title?.valid && title?.touched">
+        
+        <div *ngIf="title?.invalid && title?.touched" class="invalid-feedback">
+          <div *ngIf="title?.errors?.['required']">Title is required</div>
+          <div *ngIf="title?.errors?.['minlength']">Title should be at least 5 characters</div>
+          <div *ngIf="title?.errors?.['maxlength']">Title should not exceed 150 characters</div>
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="category" class="form-label">Category:</label>
+        <select 
+          id="category" 
+          class="form-select" 
+          formControlName="category"
+          [class.is-invalid]="category?.invalid && category?.touched"
+          [class.is-valid]="category?.valid && category?.touched">
+          <option value="">Select a category</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat">{{ cat.name }}</option>
+        </select>
+        
+        <div *ngIf="category?.invalid && category?.touched" class="invalid-feedback">
+          <div *ngIf="category?.errors?.['required']">Category is required</div>
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="content" class="form-label">Content:</label>
+        <textarea 
+          id="content" 
+          class="form-control" 
+          rows="6" 
+          formControlName="content"
+          [class.is-invalid]="content?.invalid && content?.touched"
+          [class.is-valid]="content?.valid && content?.touched"></textarea>
+        
+        <div *ngIf="content?.invalid && content?.touched" class="invalid-feedback">
+          <div *ngIf="content?.errors?.['required']">Content is required</div>
+          <div *ngIf="content?.errors?.['maxlength']">Post content should not exceed 2500 characters</div>
+        </div>
+      </div>
+  
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-secondary me-2" (click)="router.navigate(['/'])">Close</button>        
+        <button type="submit" class="btn btn-success">Post message</button>
+      </div>
+    </form>
+  </div>

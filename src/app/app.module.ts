@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component'; 
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { PostListComponent } from './components/post-list/post-list.component';
 import { PostService } from './services/post.service';
 import { PostListItemComponent } from './components/post-list-item/post-list-item.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddPostComponent } from './components/add-post/add-post.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -21,6 +23,10 @@ import { PostListItemComponent } from './components/post-list-item/post-list-ite
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule
   ],
   providers: [
     provideHttpClient(),

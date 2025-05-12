@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of} from 'rxjs';
 
-import { POSTS, Post } from '../data/post';
+import { POSTS, Post, PostCreateInput} from '../data/post';
 import { environment } from "../environment/environment";
 
 @Injectable()
@@ -18,9 +18,9 @@ export class PostService {
         return this.http.get<Post[]>(this.postsUrl);
     }
 
-    // create(post: PostCreateInput): Observable<Post> {
-    //     return this.http.post<Post>(this.postsUrl, post);
-    // }
+    create(post: PostCreateInput): Observable<Post> {
+        return this.http.post<Post>(this.postsUrl, post);
+    }
 
     update(post: Post): Observable<Post> {
         return this.http.put<Post>(this.postsUrl, post)
@@ -35,9 +35,7 @@ export class PostService {
 
     protected handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
-            console.error(`${operation} failed: ${error.message}`, error); // log to console
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
+            console.error(`${operation} failed: ${error.message}`, error); 
         };
     }
 
