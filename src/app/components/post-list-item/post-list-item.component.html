@@ -3,7 +3,7 @@
     <p>{{ post.content }}</p>
     <div>
       <span class="badge rounded-pill text-bg-light">
-        {{ post.category.name }}
+        {{  post.category?.name  }}
       </span>
       <span>{{ post.createdDate | date : "medium" }}</span>
     </div>
