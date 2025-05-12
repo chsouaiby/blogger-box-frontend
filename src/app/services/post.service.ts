@@ -36,6 +36,7 @@ export class PostService {
     protected handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
             console.error(`${operation} failed: ${error.message}`, error); 
+            return of(result as T);
         };
     }
 
