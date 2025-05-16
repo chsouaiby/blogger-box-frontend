@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of} from 'rxjs';
+import { catchError, Observable, of, map} from 'rxjs';
 
 import { Post } from '../data/post';
 import { environment } from "../environment/environment.prod";
@@ -14,6 +14,11 @@ export type PostCreateInputWithIsActive = Omit<Post, 'id' | 'createdDate'> & {
     isActive: boolean;
 };
 
+export type PostWithTimestamp = Omit<Post, 'createdDate'> & {
+  createdDate: number;
+};
+
+
 @Injectable()
 export class PostService {
 
@@ -21,19 +26,25 @@ export class PostService {
 
     constructor(private http: HttpClient){}
 
-    getPosts(): Observable<Post []> {
-        /*const posts = of(POSTS);
-        return posts;*/
-        return this.http.get<Post[]>(this.postsUrl);
+    getPosts(): Observable<Post[]> {
+        return this.http.get<Post[]>(this.postsUrl).pipe(
+            map(posts => posts.map(post => ({
+            ...post,
+            createdDate: new Date(post.createdDate)
+            })))
+        );
     }
 
-    // Décommenter et ajuster la méthode create
+
     create(post: PostCreateInput): Observable<Post> {
-        return this.http.post<Post>(this.postsUrl, post)
-            .pipe(
-                catchError(this.handleError<Post>('create'))
-            );
+        return this.http.post<Post>(this.postsUrl, post).pipe(
+            map(post => ({
+            ...post,
+            createdDate: new Date(post.createdDate)
+            }))
+        );
     }
+
 
     update(post: Post): Observable<Post> {
         return this.http.put<Post>(this.postsUrl, post)
