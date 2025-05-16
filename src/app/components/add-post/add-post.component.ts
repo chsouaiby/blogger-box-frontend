@@ -40,7 +40,7 @@ export class AddPostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadCategories();
+      this.loadCategories();
   }
 
   loadCategories(): void {
@@ -60,12 +60,15 @@ export class AddPostComponent implements OnInit {
       return;
     }
 
-    const formValue = this.postForm.value;
+    const { title, content, category } = this.postForm.value; 
     
     const postData: PostCreateInput = {
-      title: formValue.title,
-      content: formValue.content,
-      category: formValue.category
+      // title: formValue.title,
+      // content: formValue.content,
+      // category: formValue.category
+      title,
+      content,
+      categoryId: category.id
     };
 
     this.postService.create(postData).subscribe({

@@ -27,10 +27,10 @@
           formControlName="category"
           [class.is-invalid]="category?.invalid && category?.touched"
           [class.is-valid]="category?.valid && category?.touched">
-          <option value="">Select a category</option>
+          <option [ngValue]="null" disabled>Select a category</option>
           <option *ngFor="let cat of categories" [ngValue]="cat">{{ cat.name }}</option>
         </select>
-        
+
         <div *ngIf="category?.invalid && category?.touched" class="invalid-feedback">
           <div *ngIf="category?.errors?.['required']">Category is required</div>
         </div>

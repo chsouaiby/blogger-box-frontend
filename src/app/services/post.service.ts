@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of} from 'rxjs';
 
 import { Post } from '../data/post';
-import { environment } from "../environment/environment";
+import { environment } from "../environment/environment.prod";
 
 
-export type PostCreateInput = Omit<Post, 'id' | 'createdDate'>;
+export type PostCreateInput = Omit<Post, 'id' | 'createdDate' | 'category'> & {
+    categoryId: string; // UUID
+};
 
 export type PostCreateInputWithIsActive = Omit<Post, 'id' | 'createdDate'> & {
     isActive: boolean;
