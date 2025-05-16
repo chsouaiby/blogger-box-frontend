@@ -6,7 +6,7 @@ import { AddPostComponent } from './components/add-post/add-post.component';
 
 const routes: Routes = [
   { path: 'home', component: PostListComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'add-post', component: AddPostComponent }
 ];
 

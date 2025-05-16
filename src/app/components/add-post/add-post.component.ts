@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { PostService } from '../../services/post.service';
+import { PostCreateInput, PostService } from '../../services/post.service';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../data/category';
 import Swal from 'sweetalert2';
@@ -44,15 +44,14 @@ export class AddPostComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.categoryService.getAll().subscribe(
-      (data) => {
-        this.categories = data;
-      },
-      (error) => {
+    this.categoryService.getAll().subscribe({
+      next: (data) => { this.categories = data; },
+      error: (error) => {
         console.error('Error loading categories', error);
         this.showErrorToast('Failed to load categories');
       }
-    );
+    });
+
   }
 
   onSubmit(): void {
@@ -63,23 +62,23 @@ export class AddPostComponent implements OnInit {
 
     const formValue = this.postForm.value;
     
-    // Type PostCreateInput défini dans le service
-    const postData = {
+    const postData: PostCreateInput = {
       title: formValue.title,
       content: formValue.content,
       category: formValue.category
     };
 
-    this.postService.create(postData).subscribe(
-      (post) => {
+    this.postService.create(postData).subscribe({
+      next: (post) => {
         this.showSuccessToast('Post Submitted Successfully');
         this.router.navigate(['/home']);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error submitting post', error);
         this.showErrorToast('Error submitting post');
       }
-    );
+    });
+
   }
 
   // SweetAlert2 toast notifications
@@ -117,7 +116,6 @@ export class AddPostComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  // Getters pour accéder facilement aux contrôles dans le template
   get title() {
     return this.postForm.get('title');
   }

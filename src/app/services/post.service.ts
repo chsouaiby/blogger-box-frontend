@@ -2,8 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of} from 'rxjs';
 
-import { POSTS, Post, PostCreateInput} from '../data/post';
+import { Post } from '../data/post';
 import { environment } from "../environment/environment";
+
+
+export type PostCreateInput = Omit<Post, 'id' | 'createdDate'>;
+
+export type PostCreateInputWithIsActive = Omit<Post, 'id' | 'createdDate'> & {
+    isActive: boolean;
+};
 
 @Injectable()
 export class PostService {
@@ -18,8 +25,12 @@ export class PostService {
         return this.http.get<Post[]>(this.postsUrl);
     }
 
+    // Décommenter et ajuster la méthode create
     create(post: PostCreateInput): Observable<Post> {
-        return this.http.post<Post>(this.postsUrl, post);
+        return this.http.post<Post>(this.postsUrl, post)
+            .pipe(
+                catchError(this.handleError<Post>('create'))
+            );
     }
 
     update(post: Post): Observable<Post> {
@@ -39,5 +50,4 @@ export class PostService {
             return of(result as T);
         };
     }
-
 }
